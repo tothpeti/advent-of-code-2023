@@ -12,23 +12,19 @@ def getSumOfAllCalibrations(input: List[String]) =
     s"${firstDigit}${lastDigit}".toInt
   }.sum
 
-val WrittenNumbers =
-  Set("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+val WrittenToRealNumbersMap = Map(
+  "one" -> "1",
+  "two" -> "2",
+  "three" -> "3",
+  "four" -> "4",
+  "five" -> "5",
+  "six" -> "6",
+  "seven" -> "7",
+  "eight" -> "8",
+  "nine" -> "9"
+)
 
-val MaxLength = WrittenNumbers.map(_.length).max
-
-def mapWrittenNumberToRealNumber(input: String): String =
-  input match
-    case "one"   => "1"
-    case "two"   => "2"
-    case "three" => "3"
-    case "four"  => "4"
-    case "five"  => "5"
-    case "six"   => "6"
-    case "seven" => "7"
-    case "eight" => "8"
-    case "nine"  => "9"
-    case _       => ""
+val MaxLength = WrittenToRealNumbersMap.keys.map(_.length).max
 
 def processWrittenNumbers(input: List[String]) =
   input
@@ -38,8 +34,11 @@ def processWrittenNumbers(input: List[String]) =
         .toList
         .map { subString =>
           val num =
-            WrittenNumbers.filter(subString.contains).headOption.getOrElse("")
-          subString.replaceAll(num, mapWrittenNumberToRealNumber(num))
+            WrittenToRealNumbersMap.keys
+              .filter(subString.contains)
+              .headOption
+              .getOrElse("")
+          subString.replaceAll(num, WrittenToRealNumbersMap.getOrElse(num, ""))
         }
         .mkString
     }
