@@ -1,7 +1,5 @@
-import scala.io.Source
-
 def readInput(fileName: String) =
-  Source.fromResource(s"day1/$fileName.txt").getLines().toList
+  io.Source.fromResource(s"day1/$fileName.txt").getLines().toList
 
 def getSumOfAllCalibrations(input: List[String]) =
   input.map { line =>
