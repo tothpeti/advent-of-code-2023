@@ -44,8 +44,7 @@ def gatherNumberParts(
     .map(y => data(posX)(y))
     .takeWhile(ch => ch != '.' && !isSpecialChar(ch))
 
-  if step == 1 then List(numberParts.mkString)
-  else List(numberParts.reverse.mkString)
+  List(numberParts.reverse.mkString)
 
 def getDiagonalNumbers(
     posX: Int,
@@ -109,7 +108,7 @@ def findNumbersWithEverySymbolAndDirection(
     .collect { case x if x != "" => x.toInt }
 }
 
-def findNumbersForOnlyDiagonal(
+def findNumbersForPart2(
     specialCharPosX: Int,
     specialCharPosY: Int
 ): List[Int] = {
@@ -171,7 +170,7 @@ def sumOfProductOfGears() =
       y <- 0 until MaxWidth
       num =
         if isSpecialChar(data(x)(y)) && data(x)(y) == '*' then
-          findNumbersForOnlyDiagonal(x, y)
+          findNumbersForPart2(x, y)
         else List.empty
       res = if num.length == 2 then num else List.empty
     yield res
