@@ -1,8 +1,8 @@
 import scala.annotation.tailrec
 
-val MaxPossibleRedCubes = 12
+val MaxPossibleRedCubes   = 12
 val MaxPossibleGreenCubes = 13
-val MaxPosibleBlueCubes = 14
+val MaxPosibleBlueCubes   = 14
 
 case class SetOfCubes(green: Int, blue: Int, red: Int)
 
@@ -37,11 +37,10 @@ def processGames(input: List[String]): List[List[SetOfCubes]] =
   }
 
   games.map { game =>
-    game
-      .map { play =>
-        val preparedPlay = play.trim().split(",").toList.map(_.trim())
-        createSetOfCubes(preparedPlay)
-      }
+    game.map { play =>
+      val preparedPlay = play.trim().split(",").toList.map(_.trim())
+      createSetOfCubes(preparedPlay)
+    }
   }
 
 def countNumberOfPossibleGames(games: List[List[SetOfCubes]]): Int =
@@ -56,7 +55,7 @@ def countNumberOfPossibleGames(games: List[List[SetOfCubes]]): Int =
     .sum
 
 def sumOfPowerOfSubsetCubesOfGames(
-    games: List[List[SetOfCubes]]
+  games: List[List[SetOfCubes]]
 ): Int =
   games.map { game =>
     game.maxBy(_.green).green * game.maxBy(_.blue).blue * game.maxBy(_.red).red
@@ -65,13 +64,13 @@ def sumOfPowerOfSubsetCubesOfGames(
 // Part 1
 // val inputTest1: List[String] = readInput("day2_1_test")
 val inputReal1: List[String] = readInput("day2_1")
-val processedGamesReal1 = processGames(inputReal1)
+val processedGamesReal1      = processGames(inputReal1)
 countNumberOfPossibleGames(processedGamesReal1)
 
 // Part 2
 // val inputTest2: List[String] = readInput("day2_2_test")
 // we could use the real input of Task 1 for solving Task 2
 val inputReal2: List[String] = readInput("day2_1")
-val processedGamesReal2 = processGames(inputReal2)
+val processedGamesReal2      = processGames(inputReal2)
 
 sumOfPowerOfSubsetCubesOfGames(processedGamesReal2)

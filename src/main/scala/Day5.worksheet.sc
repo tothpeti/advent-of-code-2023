@@ -8,19 +8,19 @@ val data: List[String] = readInput("day5_1_test").filter(_.nonEmpty)
 // val data: List[String] = readInput("day5_1").filter(_.nonEmpty)
 
 case class SourceToDestination(
-    sourceStart: BigInt,
-    destinationStart: BigInt,
-    rangeLength: BigInt
+  sourceStart: BigInt,
+  destinationStart: BigInt,
+  rangeLength: BigInt
 )
 
 case class ConverterMap(
-    name: String,
-    mappings: List[SourceToDestination]
+  name: String,
+  mappings: List[SourceToDestination]
 )
 
 case class Seed(
-    start: BigInt,
-    end: BigInt
+  start: BigInt,
+  end: BigInt
 )
 
 def extractSeeds(input: List[String]): (List[BigInt], List[String]) =
@@ -54,8 +54,8 @@ def extractRangedSeeds(input: List[String]): (ListBuffer[Seed], List[String]) =
 
 def extractSourceToDestinationMaps(input: List[String]) = {
   def getMappings(
-      list: List[String],
-      accumulator: List[SourceToDestination]
+    list: List[String],
+    accumulator: List[SourceToDestination]
   ): (List[String], List[SourceToDestination]) =
     list match
       case head :: tail =>
@@ -75,9 +75,9 @@ def extractSourceToDestinationMaps(input: List[String]) = {
         (list, accumulator)
 
   def loop(
-      remaining: List[String],
-      accumulator: List[ConverterMap]
-  ): List[ConverterMap] = {
+    remaining: List[String],
+    accumulator: List[ConverterMap]
+  ): List[ConverterMap] =
     remaining match
       case head :: tail =>
         head match
@@ -86,14 +86,13 @@ def extractSourceToDestinationMaps(input: List[String]) = {
             loop(leftovers, accumulator :+ ConverterMap(name, mappings))
       case Nil =>
         accumulator
-  }
 
   loop(input, List.empty)
 }
 
 def findConvertedNumber(
-    lastConvertedNumber: BigInt,
-    converterMap: ConverterMap
+  lastConvertedNumber: BigInt,
+  converterMap: ConverterMap
 ): BigInt =
   val foundMappings = converterMap.mappings.filter { mapping =>
     mapping.sourceStart <= lastConvertedNumber && lastConvertedNumber <= mapping.sourceStart + mapping.rangeLength
@@ -111,19 +110,18 @@ def findConvertedNumber(
       lastConvertedNumber - diff
 
 def findLocation(
-    currentSeed: BigInt,
-    maps: List[ConverterMap]
-): BigInt = {
+  currentSeed: BigInt,
+  maps: List[ConverterMap]
+): BigInt =
   maps.foldLeft(currentSeed) { (lastConvertedNumber, converterMap) =>
     findConvertedNumber(lastConvertedNumber, converterMap)
   }
-}
 
 def findMinimumLocation(
-    data: List[String]
+  data: List[String]
 ): BigInt =
   val (seeds, leftovers) = extractSeeds(data)
-  val converterMaps = extractSourceToDestinationMaps(leftovers)
+  val converterMaps      = extractSourceToDestinationMaps(leftovers)
 
   seeds
     .foldLeft(List.empty[BigInt]) { (accumulator, currentSeed) =>
@@ -132,15 +130,15 @@ def findMinimumLocation(
     .min
 
 def findLocationPart2(
-    seeds: ListBuffer[Seed],
-    mappings: List[SourceToDestination]
+  seeds: ListBuffer[Seed],
+  mappings: List[SourceToDestination]
 ): ListBuffer[Seed] =
   var tmpSeeds = seeds
-  var answers = ListBuffer.empty[Seed]
+  var answers  = ListBuffer.empty[Seed]
 
   for mapping <- mappings do
     val sourceEnd = mapping.sourceStart + mapping.rangeLength
-    var tmp = ListBuffer.empty[Seed]
+    var tmp       = ListBuffer.empty[Seed]
 
     while tmpSeeds.nonEmpty do
       /*
@@ -174,10 +172,9 @@ def findLocationPart2(
 
 def findMinimumLocationPart2(data: List[String]): BigInt =
   var (seeds, leftovers) = extractRangedSeeds(data)
-  val converterMaps = extractSourceToDestinationMaps(leftovers)
+  val converterMaps      = extractSourceToDestinationMaps(leftovers)
 
-  for converterMap <- converterMaps do
-    seeds = findLocationPart2(seeds, converterMap.mappings)
+  for converterMap <- converterMaps do seeds = findLocationPart2(seeds, converterMap.mappings)
 
   seeds.minBy(_.start).start
 
